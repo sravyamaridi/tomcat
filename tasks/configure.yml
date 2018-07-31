@@ -1,0 +1,40 @@
+- name: creating username and password in Debian
+  template: 
+    src: tomcat-users.xml.j2
+    dest: /etc/tomcat7/tomcat-users.xml
+  notify:
+    - restart tomcat7
+  when: ansible_os_family == "Debian"
+- name: creating username and password in RedHat
+  template:
+    src: tomcat-users.xml.j2
+    dest: /etc/tomcat/tomcat-users.xml
+  notify:
+    - restart tomcat
+  when: ansible_os_family == "RedHat"
+- name: static file call
+  copy:
+    src: tomcat7
+    dest: /etc/default/tomcat7
+  notify:
+    - restart tomcat7- name: static file call
+  copy:
+    src: tomcat7
+    dest: /etc/default/tomcat7
+  notify:
+    - restart tomcat7
+  when: ansible_os_family == "Debian"
+- name: depoly war file
+  copy:
+    src: CounterWebApp.war
+    dest: /var/lib/tomcat7/webapps/
+  notify:
+    - restart tomcat7
+  when: ansible_os_family == "Debian"
+- name: war file calls
+  copy:
+    src: CounterWebApp.war
+    dest: /var/lib/tomcat/webapps/
+  notify:
+    - restart tomcat
+  when: ansible_os_family == "RedHat"

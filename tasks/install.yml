@@ -1,0 +1,17 @@
+- name: install tomcat on ubntu
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ apt_package }}"
+  notify:
+    - restart tomcat7
+  when: ansible_os_family == "Debian"
+- name: install tomcat on redhat
+  yum: 
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ yum_package }}"
+  notify: 
+    - restart tomcat
+  when: ansible_os_family == "RedHat"
+    
